@@ -1,0 +1,53 @@
+import java.util.*;
+
+public class Student {
+    String name, email, gender, id, password;
+    int age;
+    ArrayList<Course> courses = new ArrayList<>();
+
+    public Student(String name, int age, String email, String gender, String id, String password) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.gender = gender;
+        this.id = id;
+        this.password = password;
+    }
+
+    public void display() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Age: " + age + ", Gender: " + gender + ", Email: " + email);
+    }
+
+    public void updateDetails(Scanner sc) {
+        System.out.print("Update name: "); name = sc.nextLine();
+        System.out.print("Update age: "); age = sc.nextInt(); sc.nextLine();
+        System.out.print("Update email: "); email = sc.nextLine();
+        System.out.print("Update gender: "); gender = sc.nextLine();
+        System.out.println("Details updated!");
+    }
+
+    public void viewCourses() {
+        if (courses.isEmpty()) {
+            System.out.println("No courses enrolled.");
+        } else {
+            for (Course c : courses) System.out.println("Enrolled: " + c.code + " - " + c.name);
+        }
+    }
+
+    public void enrollInCourse(ArrayList<Course> coursesList, Scanner sc) {
+        System.out.print("Enter course code to enroll: ");
+        String code = sc.nextLine();
+        for (Course c : coursesList) {
+            if (c.code.equals(code)) {
+                if (!courses.contains(c)) {
+                    courses.add(c);
+                    System.out.println("Enrolled in " + c.name);
+                } else {
+                    System.out.println("Already enrolled!");
+                }
+                return;
+            }
+        }
+        System.out.println("Course not found!");
+    }
+}

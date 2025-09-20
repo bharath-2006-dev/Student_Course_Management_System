@@ -1,0 +1,135 @@
+import java.util.*;
+public class StudentManagementSystem {
+    private ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Course> courses = new ArrayList<>();
+    private Admin admin;
+
+    public StudentManagementSystem() {
+        admin = new Admin("admin", "admin123"); // Default admin login
+        courses.add(new Course("C101", "Mathematics"));
+        courses.add(new Course("C102", "Computer Science"));
+    }
+
+    public void run() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("~~~ Student Course Management System ~~~");
+            System.out.println("1. Admin Login");
+            System.out.println("2. Student Login");
+            System.out.println("3. Exit");
+            System.out.print("Choose option: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+            switch (choice) {
+                case 1:
+                    adminLogin(sc);
+                    break;
+                case 2:
+                    studentLogin(sc);
+                    break;
+                case 3:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    private void adminLogin(Scanner sc) {
+        System.out.print("Enter admin ID: ");
+        String id = sc.nextLine();
+        System.out.print("Enter admin password: ");
+        String pw = sc.nextLine();
+        if (admin.login(id, pw)) {
+            System.out.println("Admin login successful!");
+            adminMenu(sc);
+        } else {
+            System.out.println("Login failed.");
+        }
+    }
+
+    private void adminMenu(Scanner sc) {
+        while (true) {
+            System.out.println("\n--- Admin Menu ---");
+            System.out.println("1. Add Student");
+            System.out.println("2. Register Student to Course");
+            System.out.println("3. View All Students");
+            System.out.println("4. Add Course");
+            System.out.println("5. Logout");
+            System.out.print("Enter choice: ");
+            int ch = sc.nextInt();
+            sc.nextLine();
+            switch(ch) {
+                case 1:
+                    admin.addStudent(students, sc);
+                    break;
+                case 2:
+                    admin.registerStudentToCourse(students, courses, sc);
+                    break;
+                case 3:
+                    admin.viewAllStudents(students);
+                    break;
+                case 4:
+                    admin.addCourse(courses, sc);
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    private void studentLogin(Scanner sc) {
+        System.out.print("Enter student ID: ");
+        String sid = sc.nextLine();
+        System.out.print("Enter student password: ");
+        String pw = sc.nextLine();
+        Student stud = null;
+        for (Student s : students) {
+            if (s.id.equals(sid) && s.password.equals(pw)) {
+                stud = s;
+                break;
+            }
+        }
+        if (stud != null) {
+            System.out.println("Student login successful!");
+            studentMenu(sc, stud);
+        } else {
+            System.out.println("Login failed.");
+        }
+    }
+
+    private void studentMenu(Scanner sc, Student stud) {
+        while (true) {
+            System.out.println("\n--- Student Menu ---");
+            System.out.println("1. View Details");
+            System.out.println("2. Update Details");
+            System.out.println("3. View Courses");
+            System.out.println("4. Enroll in Course");
+            System.out.println("5. Logout");
+            System.out.print("Enter choice: ");
+            int ch = sc.nextInt();
+            sc.nextLine();
+            switch(ch) {
+                case 1:
+                    stud.display();
+                    break;
+                case 2:
+                    stud.updateDetails(sc);
+                    break;
+                case 3:
+                    stud.viewCourses();
+                    break;
+                case 4:
+                    stud.enrollInCourse(courses, sc);
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
