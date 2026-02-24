@@ -1,18 +1,14 @@
 import java.util.*;
-
 public class Admin {
     private String id;
     private String password;
-
     public Admin(String id, String password) {
         this.id = id;
         this.password = password;
     }
-
     public boolean login(String id, String password) {
         return this.id.equals(id) && this.password.equals(password);
     }
-
     public void addStudent(ArrayList<Student> students, Scanner sc) {
         System.out.print("Enter student name: ");
         String name = sc.nextLine();
@@ -62,3 +58,4 @@ public class Admin {
         System.out.println("Course added.");
     }
 }
+
